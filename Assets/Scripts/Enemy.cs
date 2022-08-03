@@ -19,23 +19,25 @@ public class Enemy : MonoBehaviour
     public void TakeDamage()
     {
         DeactivateCollider();
-        Player.Instance.AddScale(0f);
      
         animator.SetTrigger("Boom");
     }
 
     public void DestroyObject()
     {
-        Player.Instance.SetTarget(transform);
+        if (Player.Instance != null)
+        {
+            Player.Instance.SetTarget(transform);
+        }
         Instantiate(explodePrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Player>())
+        if (collision.gameObject.TryGetComponent<Player>(out Player player))
         {
-            SceneManager.LoadScene(0);
+            player.Dead();
         }
     }
 }
