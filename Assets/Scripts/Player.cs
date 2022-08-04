@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform shootPoint;
     [SerializeField]
-    private Transform road;
+    private Road road;
     private GameObject currentTarget, lastTarget;
     [SerializeField]
     private GameObject deadPrefab;
@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private bool isRun;
     [SerializeField]
     private bool isFinish;
+    [SerializeField]
+    private LayerMask enemyLayer;
     public static Player Instance { get; private set; }
 
     private void Awake()
@@ -98,8 +100,7 @@ public class Player : MonoBehaviour
                 }
 
                 transform.localScale -= (Vector3.one * speedPower * Time.deltaTime);
-                road.localScale = new Vector3(transform.localScale.x, road.localScale.y, road.localScale.z);
-                Debug.Log(road.localScale);
+                road.transform.localScale = new Vector3(transform.localScale.x, road.transform.localScale.y, road.transform.localScale.z);
                 currentBullet.SetScale(speedPower);
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
